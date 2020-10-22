@@ -1,0 +1,371 @@
+
+package ejercicio;
+
+import java.util.Scanner;
+/**
+ *
+ * @author Marco 
+ */
+public class Alumno {
+    static int alumnos;
+    String nombre;
+    String apellido;
+    int edad;
+    Domicilio dom = new Domicilio();
+    Asignatura asig[] = new Asignatura[3];
+    
+    public Alumno(){
+        
+    }
+    
+    public Alumno(String nombre, String apellido, int edad){    //constructor
+        alumnos += 1;   //cada que se agregue un nuevo alumno, se incrementará el contador
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+    }
+    
+    public String getNombre(){  //getters y setters
+        return nombre;
+    }
+    
+    public void setNombre(String nombre){
+        
+        this.nombre = nombre;
+    }
+    
+    public String getApellido(){
+        return apellido;
+    }
+    
+    public void setApellido(String apellido){
+        this.apellido = apellido;
+    }
+    
+    public int getEdad(){
+        return edad;
+    }
+    
+    public void setEdad(int edad){
+        this.edad = edad;
+    }
+    
+    public void AsignarDomicilioAlu(){    //interaccion de Alumno con Domicilio
+        String calle;
+        String delegacion; 
+        int codPostal;
+        Scanner variable = new Scanner(System.in);
+      
+        System.out.println("Ingrese el domicilio del alumno");
+        System.out.println("Calle: ");
+        calle = variable.nextLine();
+        System.out.println("Delegacion: ");
+        delegacion = variable.nextLine();
+        System.out.println("Codigo postal: ");
+        codPostal = variable.nextInt();
+        
+        dom.setCalle(calle);
+        dom.setDelegacion(delegacion);
+        dom.setCodPostal(codPostal);
+        
+    }
+    
+    public void AsignarAsignaturasAlu(){    //interaccion de Alumno con Domicilio
+       
+        Scanner variable = new Scanner(System.in);
+        Scanner var = new Scanner(System.in);
+        Scanner var1 = new Scanner(System.in);
+        System.out.println("Ingrese el numero de asignaturas de los alumnos (al menos 3)");
+        int k = var1.nextInt();
+        
+        while(k < 3){
+            System.out.println("Ingrese mas de dos");
+            k = var1.nextInt();
+        }
+        
+        System.out.println("Ingrese las asignaturas del alumno");
+        System.out.println("Ingrese primero nombre, luego semestre (en palabras) y finalmente creditos (en numero)");
+        for(int i = 0; i<k; i++){
+            System.out.println("Asignatura " + (i+1));
+            asig[i] = new Asignatura(variable.nextLine(),variable.nextLine(),var.nextInt());
+            asig[i].asignarProfesor();
+        }
+        
+    }
+    
+    public void imprimir(Alumno alu){
+        System.out.println("Alumno");
+        System.out.println("Nombre: " + alu.getNombre());
+        System.out.println("Apellido: " + alu.getApellido());
+        System.out.println("Edad: " + alu.getEdad());
+        System.out.println("Domicilio");
+        System.out.println("Calle: " + alu.dom.getCalle());
+        System.out.println("Delegacion: " + alu.dom.getDelegacion());
+        System.out.println("Codigo postal: " + alu.dom.getCodPostal());
+        System.out.println("Asignaturas");
+        
+        int i = 1;
+        for(Asignatura recorrido:asig){
+            System.out.println("Asignatura " + i);
+            recorrido.imprimirAsignaturas();
+            recorrido.profeAsignatura.imprimirProfesor();
+            i++;
+        }
+        
+    }
+    
+}
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ejercicio;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author Marco
+ */
+public class Asignatura {
+    
+    String nombre;
+    String semestre;
+    int creditos;
+    Profesor profeAsignatura = new Profesor();
+    
+    public Asignatura(){    //constructor
+        
+    }
+    
+    public Asignatura(String nombre, String semestre, int creditos){    //constructor
+        this.nombre = nombre;
+        this.semestre = semestre;
+        this.creditos = creditos;
+    }
+    
+     public String getNombre(){  //getters y setters
+        return nombre;
+    }
+    
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+    
+    public String getSemestre(){
+        return semestre;
+    }
+    
+    public void setSemestre(String semestre){
+        this.semestre = semestre;
+    }
+    
+    public int getCreditos(){
+        return creditos;
+    }
+    
+    public void setCreditos(int creditos){
+        this.creditos = creditos;
+    }
+    
+    public void asignarProfesor(){
+        String nombre;
+        String apellido; 
+        int edad;
+        Scanner variable = new Scanner(System.in);
+        Profesor.profesores+=1;
+      
+        System.out.println("Ingrese al profesor");
+        System.out.println("Nombre: ");
+        nombre = variable.nextLine();
+        System.out.println("Apellido: ");
+        apellido = variable.nextLine();
+        System.out.println("Edad: ");
+        edad = variable.nextInt();
+        
+        profeAsignatura.setNombre(nombre);
+        profeAsignatura.setApellido(apellido);
+        profeAsignatura.setEdad(edad);
+    }
+    
+    public void imprimirAsignaturas(){
+        System.out.println("Nombre asignatura: " + this.getNombre());
+        System.out.println("Semestre: " + this.getSemestre());
+        System.out.println("Creditos: " + this.getCreditos());
+    }
+    
+}
+
+
+package ejercicio;
+
+/**
+ *
+ * @author Marco
+ */
+public class Domicilio {
+    String calle;
+    String delegacion;
+    int codPostal;
+    
+    public Domicilio(){ //constructor
+        
+    }
+    
+    public Domicilio(String calle, String delegacion, int codPostal){    //constructor
+        this.calle = calle;
+        this.delegacion = delegacion;
+        this.codPostal = codPostal;
+    }
+    
+     public String getCalle(){  //getters y setters
+        return calle;
+    }
+    
+    public void setCalle(String calle){
+        this.calle = calle;
+    }
+    
+    public String getDelegacion(){
+        return delegacion;
+    }
+    
+    public void setDelegacion(String delegacion){
+        this.delegacion = delegacion;
+    }
+    
+    public int getCodPostal(){
+        return codPostal;
+    }
+    
+    public void setCodPostal(int codPostal){
+        this.codPostal = codPostal;
+    }
+    
+}
+
+package ejercicio;
+
+import java.util.Scanner;
+/**
+ *
+ * @author Marco
+ */
+public class Ejercicio {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+        Scanner sc = new Scanner(System.in);
+        Scanner variable = new Scanner(System.in);
+        
+        System.out.println("Ingrese el numero de alumnos: ");
+        int a = sc.nextInt();
+        
+        while(a < 3){
+            System.out.println("Ingrese mas de dos");
+            a = sc.nextInt();
+        }
+        
+        String varAux = new String();   //variable auxiliar string
+        String varAux2 = new String();   //variable auxiliar string
+        int varAux3;   //variable auxiliar
+        Alumno alumnos[] = new Alumno[a];   //creo un arreglo de alumnos
+        
+        for(int i = 0; i<a; i++){   //for que se repetirá segun el numero de alumnos ingresados
+            System.out.println("Ingrese los datos del alumno " + (i+1) + ": ");
+            System.out.println("Nombre: ");
+            varAux = variable.nextLine();
+            System.out.println("Apellido: ");
+            varAux2 = variable.nextLine();
+            System.out.println("Edad: ");
+            varAux3 = sc.nextInt();
+            alumnos[i] = new Alumno(varAux,varAux2,varAux3);    // a cada alumno (cada uno tendrá una posicion en el arreglo), le mando la informacion 
+            
+            alumnos[i].AsignarDomicilioAlu();   //tambien a cada alumno se le asignara su domicilo, asignaturas y profesor
+            alumnos[i].AsignarAsignaturasAlu();
+            System.out.println(" ");
+        
+            
+        }
+        
+        for(int i = 0; i<a; i++){   //for que se repetirá segun el numero de alumnos ingresados para imprimir todos sus datos
+            alumnos[i].imprimir(alumnos[i]);
+            System.out.println(" ");
+        }
+        
+        System.out.println("Numero de alumnos creados: " + Alumno.alumnos);
+        System.out.println("Numero de profesores creados: " + Profesor.profesores);
+    }
+    
+}
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ejercicio;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author Marco
+ */
+public class Profesor {
+    
+    static int profesores;  //variable estática
+    String nombre;
+    String apellido;
+    int edad;
+    
+    public Profesor(){
+        
+    }
+    
+    public Profesor(String nombre, String apellido, int edad){    //constructor
+        profesores += 1;   //cada que se agregue un nuevo alumno, se incrementará el contador
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
+    }
+    
+     public String getNombre(){  //getters y setters
+        return nombre;
+    }
+    
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+    
+    public String getApellido(){
+        return apellido;
+    }
+    
+    public void setApellido(String apellido){
+        this.apellido = apellido;
+    }
+    
+    public int getEdad(){
+        return edad;
+    }
+    
+    public void setEdad(int edad){
+        this.edad = edad;
+    }
+    
+    public void imprimirProfesor(){    //interaccion de Alumno con Domicilio
+       
+        System.out.println("Nombre profesor: " + this.getNombre());
+        System.out.println("Apellido del profesor: " + this.getApellido());
+        System.out.println("Edad: " + this.getEdad());
+       
+    }
+    
+    
+}
